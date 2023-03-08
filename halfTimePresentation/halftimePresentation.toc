@@ -1,0 +1,8 @@
+\beamer@sectionintoc {1}{Autoencoder}{3}{0}{1}
+\beamer@sectionintoc {2}{Variational Autoencoder}{5}{0}{2}
+\beamer@subsectionintoc {2}{1}{Background}{5}{0}{2}
+\beamer@subsectionintoc {2}{2}{Mathematical background}{6}{0}{2}
+\beamer@subsectionintoc {2}{3}{Implementation}{14}{0}{2}
+\beamer@sectionintoc {3}{Training data}{19}{0}{3}
+\beamer@sectionintoc {4}{Next steps}{20}{0}{4}
+\beamer@sectionintoc {5}{Bibliography}{21}{0}{5}

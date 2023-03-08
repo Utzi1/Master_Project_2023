@@ -1,0 +1,16 @@
+	\begin{neuralnetwork}[]
+        \newcommand{\nodeEnc}[2]{E}
+        \newcommand{\nodeDec}[2]{D}
+        \inputlayer[count=10, bias=false]
+        \hiddenlayer[count=10, bias=false, text=\nodeEnc]\linklayers
+        \hiddenlayer[count=5, bias=false, text=\nodeEnc]\linklayers
+        \hiddenlayer[count=3, bias=false, text=\nodeEnc]\linklayers
+            %\link[from layer=3, to layer=4, from node=1, to node=1]
+        \hiddenlayer[count=4, bias=false, title=Sampling]\linklayers
+        \hiddenlayer[count=2, bias=false, title=Latent space]\linklayers
+        \hiddenlayer[count=5, bias=false, text=\nodeDec]\linklayers
+        \hiddenlayer[count=4, bias=false, text=\nodeDec]\linklayers
+        \hiddenlayer[count=10, bias=false, text=\nodeDec]\linklayers
+        \outputlayer[count=10, bias=false]\linklayers
+    \end{neuralnetwork}
+

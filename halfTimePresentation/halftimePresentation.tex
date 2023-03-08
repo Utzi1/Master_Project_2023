@@ -1,0 +1,383 @@
+\documentclass{beamer}
+%\usetheme{boxes}
+%\usecolortheme{rose}
+\usepackage{amsmath}
+\usepackage[T1]{fontenc} 
+\usepackage[scaled=0.83]{sourcecodepro}
+\usepackage[]{graphicx}
+\usepackage{algpseudocode}
+\usepackage[]{neuralnetwork}
+\input{KNN_Graphs/VAE.tikzstyles}
+\usepackage{amsxtra} 
+\usepackage{tikzit}
+\usepackage[]{cite}
+%Information to be included in the title page:
+\title{Halvtid presentation}
+\author{ULR}
+\institute{HIS}
+\titlegraphic{\includegraphics[height=2.5cm]{Högskolan_i_Skövde_vapen.svg.png}}
+\date{\today}
+
+\begin{document}
+
+\frame{\titlepage}
+\begin{frame}{Contents}
+    \tableofcontents
+\end{frame}
+
+
+\section{Autoencoder}
+\begin{frame}{Autoencoder}
+    \begin{block}{Basics}
+        \begin{itemize}
+            \item "been part of the historical landscape of of neural networks for decades"\cite{Goodfellow-et-al-2016}
+            \item Hidden layers $h$ reassemble a function $f(X)$ which transform their input $X$ to a encoded
+                representation $z$ so that another reconstruction function $g(z)$ is able to produce $g(z) \approx X$.
+        \end{itemize}    
+    \end{block}
+    \begin{block}{Usage}
+        \begin{itemize}
+            \item Denoising
+            \item Dimensionality reduction
+            \item Feature learning
+            \item Generative learning
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Autoencoder}
+    \resizebox{\textwidth}{!}{\input{KNN_Graphs/AE.tex}}
+\end{frame}
+
+\section{Variational Autoencoder}
+\subsection{Background}
+
+\begin{frame}{Variational Autoencoder}
+    \begin{block}{Method}
+        Traditionally unsupervised variational Bayesian method
+    \end{block}
+    \begin{columns}
+        \begin{column}{0.30\textwidth}
+            \begin{block}{Sampling process}
+                \begin{center}
+                    \resizebox{\textwidth}{!}{\tikzfig{VAEmodel}}
+                \end{center}
+            \end{block}
+        \end{column}
+        \begin{column}{0.65\textwidth}
+            \begin{block}{}
+                \begin{description}
+                    \item[$\Theta$] Model parameter space
+                    \item[$\rho$] Probability distribution $P(z)$
+                    \item[$z$] Latent variable sampled $n$ times
+                \end{description}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\subsection{Mathematical background}
+
+\begin{frame}{Variational Autoencoder}
+    \begin{block}{Bayes theorem}
+        \begin{equation}
+            P(A\mid B) = \frac{P(B \mid A) P(A)}{P(B)}
+        \end{equation}
+    \end{block}
+
+    \begin{block}{Objective}
+        \begin{itemize}
+            \item With every example $X$ from a set $\mathcal{X}$ we aim to generate a space $z$ to
+                recreate $X$.
+            \item $z$ gets sampled from $\mathcal{Z}$ according to $\rho \sim P(z)$.
+            \item $f(z;\theta), f: \mathcal{Z} \times \Theta \to \mathcal{X}$ helps to optimize 
+                $\theta$ 
+            \item maximize:
+                \begin{equation}
+                    P(x) = \int P(X\mid z; \theta)\, P(z) \, dz
+                \end{equation}
+            \item Where $f(z;\theta)$ gets replaced by $P(X\mid z; \theta)$ to enable maximum 
+                likelihood framework
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+
+\begin{frame}{Variational Autoencoder}
+    \begin{block}{Objective}
+        Based on some input sample values of $z$ likely to produce $X$.
+    \end{block}
+    \begin{block}{Method}
+        Therefor a function $Q(z\mid X)$ is introduced to generate $z$'s likely to produce $X$.
+
+        This space of $z$'s should be smaller than that one under the prior $P(X)$
+    \end{block}
+\end{frame}
+
+\begin{frame}{Variational Autoencoder}
+    \begin{block}{Optimisation}
+        The framework introduced by Kingma and Welling \cite{1312.6114} does the magic.
+        It allows us to construct a differentiable estimator:
+        \begin{equation}
+            \int Q(z\mid X)\, f(z) \, dz
+        \end{equation}
+    \end{block}
+    \begin{block}{Kullback Leibler Divergence}
+        Allows to compare probability distributions
+        \begin{description}
+            \item[$P, Q$] probability distribution functions
+        \end{description}
+        \begin{equation}
+            \mathcal{D}(P\parallel Q) = \mathcal{KL} = \sum_{x \in X} P(x) \cdot \log \frac{P(x)}{Q(x)}
+        \end{equation}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Helpers}
+    
+    \begin{block}{Marginal likelihood of individual data points}
+        (Likelihood function integrated over parameter space)
+        \begin{equation}
+            \log P\left(X^i\right) = \mathcal{D}\left( Q_\phi \left(z \mid X^i \right) \parallel P_\theta \left(z \mid
+                X^i\right) \right) +\mathcal{L}  \left(\theta , \phi , X^i\right)
+        \end{equation}
+        Where:
+        \begin{equation}
+                \mathcal{L} (\theta , \phi , X) =
+                \mathcal{E}_{z\sim Q} \left[\log P_\theta(z\mid X)-\log Q_\phi(z) \right]
+        \end{equation}
+    \end{block}
+    \begin{block}{Evidence lower bound}
+        \begin{equation}
+            \begin{split}
+                \log P_\theta \left(X^i\right) & \geq \mathcal{L} \left(\theta , \phi , X^i\right) \\
+                                               &= \mathcal{E}_{Q_\phi (z\mid X)} \left[ -\log 
+                                               Q_\phi(z \mid X) + \log P_\theta(z, X) \right]
+            \end{split}
+        \end{equation}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Relationship between $Q$ and $P$}
+    The Evidence lower bound (ELBO) or just lower variational bound:
+    \begin{equation}
+        \mathcal{D} \left( Q(z) \parallel P(z\mid X) \right) = \mathcal{E}_{z\sim Q} \left[ \log Q(z) 
+        - \log P(z\mid X) \right]
+    \end{equation}
+    Introduce $P(x)$ and $P(X\mid z)$:
+    \begin{equation}
+        \begin{split}
+            \mathcal{D} & \left( Q(z) \parallel P(z\mid X) \right) \\
+                        &= \mathcal{E}_{z\sim Q} \left[ \log Q(z) - 
+                        \log P(z\mid X) -\log P(z) \right] + \log P(X)
+        \end{split}
+    \end{equation}
+    Rearrange the ELBO and get another $\mathcal{KL}$-term:
+    \begin{equation}
+        \begin{split}
+            \log P(X) - & \mathcal{D} \left( Q(z) \parallel P(z\mid X) \right) \\
+                        &= \mathcal{E}_{z\sim Q} \left[\log P(X\mid z) \right] - \mathcal{D}
+                        \left( Q(z) \parallel P(z) \right) 
+        \end{split}
+    \end{equation}
+    And introduce a dependency of $Q(z)$ on $X$ to make it useful:
+    \begin{equation}
+        \begin{split}
+            \log P(X) - & \mathcal{D} \left( Q(z\mid X) \parallel P(z\mid X) \right) \\
+                        &= \mathcal{E}_{z\sim Q} \left[\log P(X\mid z) \right] - \mathcal{D}
+                        \left( Q(z \mid X) \parallel P(z) \right)
+        \end{split}
+    \end{equation}
+\end{frame}
+
+\begin{frame}{Autoencoding variational Bayes}
+
+    \alert{Backpropagation only works with continuous operations, stochastic units aren't that.}
+    \begin{block}{The reparametrisation trick}
+        With $\mu(X)$ and $\sigma(x)$ parametrising $Q(z \mid X)$ sampling from 
+        $\mathcal{N}(\mu(X), \sigma(X))$ we can draw $\epsilon \sim \mathcal{N}(0, 1)$ and compute 
+        $z_{\epsilon \sim Q} = \mu(X) + \sqrt{\sigma}(X) \cdot \epsilon$ and perform SGD
+
+        \begin{equation}
+            \mathcal{E}_{z\sim \mathcal{D}} \left[\mathcal{E}_{\epsilon \sim \mathcal{N}(0,1)} 
+                \left[\log P(X\mid z_{\epsilon \sim Q} - \mathcal{D}
+                \left( Q(z \mid X) \parallel P(z) \right)
+\right] \right]
+        \end{equation}
+        \begin{equation}
+            \begin{split}
+                \mathcal{L} (\theta , \phi , X) &=
+                \mathcal{E}_{z\sim Q} \left[\log P_\theta(z\mid X)-\log Q_\phi(z) \right]\\
+                                                &\approx \tilde{\mathcal{L}}^m(\theta , \phi , X^m) 
+                                                = \frac{n}{m} \sum_{i=1}^{m} \mathcal{L} (\theta , \phi , X_i)
+            \end{split}
+        \end{equation}
+
+    \end{block}
+
+\end{frame}
+
+
+\begin{frame}{}
+    \begin{block}{Pseudocode}
+        \begin{algorithmic}
+            \State $\theta, \phi \gets $ random parameter
+            \Repeat
+            \State $X^m$ $\gets$ random mini batch with size $m$
+            \State $\epsilon$ $\gets$ random samples from noise distribution $P(\epsilon)$
+            \State $g$ $\gets$ $\nabla _{\theta , \phi} \tilde{\mathcal{L}}^m(\theta , \phi , X^m , \epsilon) $
+            \State $\theta, \phi \gets $ update parameters with $g$
+            \Until convergence of params $\theta, \phi$
+            \State \Return $\theta, \phi$
+        \end{algorithmic}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Variational Autoencoder}
+    \resizebox{\textwidth}{!}{\tikzfig{VAE}}
+    \resizebox{\textwidth}{!}{\input{KNN_Graphs/VAE1.tex}}
+\end{frame}
+
+\subsection{Implementation}
+
+\begin{frame}{Implementation}
+
+    \begin{itemize}
+        \item Using \texttt{tensorflow.keras} functional API \cite{Chollet2017-yw}
+        \item Currently $relu$ activations and unbiased layers
+        \item Hidden layers constructed iterative
+        \item Deploying a \texttt{.\_build} method, returns encoder, decoder and z
+        \item \texttt{Model} gets trained in customised step
+        \item Sampling layer forms an extra \texttt{Class}
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Training step}
+
+    \tiny{
+        \begin{verbatim}
+ def train_step(self, data):                                                
+    with tf.GradientTape() as tape:                                        
+        z_mean, z_logvar, z = self.encoder(data)                           
+        reconstruction = self.decoder(z)                                   
+        reconstruction_loss = mean(K.square(data - reconstruction),      
+                                     axis=1)                               
+        kl_loss = -.5 * (1 + z_logvar - square(z_mean) - exp(          
+            z_logvar)                                                      
+                         )                                                 
+        kl_loss = sum(kl_loss)                                           
+        total_loss = kl_loss + reconstruction_loss                         
+    grads = tape.gradient(total_loss, self.trainable_weights)              
+    self.optimizer.apply_gradients(zip(grads, self.trainable_weights))     
+    self.total_loss_tracker.update_state(total_loss)                       
+    self.reconstruction_loss_tracker.update_state(reconstruction_loss)     
+    self.kl_loss_tracker.update_state(kl_loss)                             
+    return {                                                               
+            "loss": self.total_loss_tracker.result(),                      
+            "reconstruction_loss": self.reconstruction_loss_tracker.result(),
+            "kl_loss": self.kl_loss_tracker.result()}
+        \end{verbatim}
+    }
+\end{frame}
+
+\begin{frame}[fragile]{Sampling layer}
+
+    \tiny{
+        \begin{verbatim}
+class Sampling_Layer(tf.keras.layers.Layer):                                 
+    """                                                                      
+    A sampling layer using the mean and log(var) to sample from an input     
+    """                                                                      
+    def call(self, inputs):                                                  
+        mean, logvar = inputs                                                
+        batch = tf.shape(mean)[0]                                            
+        dim = tf.shape(mean)[1]                                              
+        epsilon = tf.random.normal(shape=(batch, dim), mean=0., stddev=1.)   
+        return mean + tf.exp(logvar * .5) * epsilon                          
+        \end{verbatim}
+    }
+\end{frame}
+
+\begin{frame}[fragile]{Training with a dummy}
+    \tiny{
+        \begin{verbatim}
+import tensorflow as tf                                                       
+import numpy as np                                                            
+import generic_VAE                                                            
+
+# create some random, uniformly distributed tensors:                          
+training_dummys = np.asarray(                                                 
+        [tf.random.uniform((400,)) for item in range(100000)])                
+
+# create some testing tensors:                                                
+testing_dummys = np.asarray(                                                  
+        [tf.random.uniform((400,)) for item in range(50000)])                 
+
+# this is completely senseless, the part where a training-set and one for     
+# testing was created the VAE is unsupervised (in this case)                  
+dummy_data = np.concatenate((training_dummys, testing_dummys))                
+
+dummy_vae = generic_VAE.Builder(                                              
+        input_shape=(400, ),                                                  
+        encoder_shape=[400, 200, 100, 40, 20, 4],                             
+        decoder_shape=[4, 20, 40, 100, 200, 400],                             
+        latent_dims=2,                                                        
+        dropout_rate=0)                                                       
+
+vae = generic_VAE.VAE(dummy_vae.decoder_model, dummy_vae.encoder_model)       
+vae.compile()                                                                 
+vae.fit(dummy_data, epochs=10, batch_size=2000)                               
+        \end{verbatim}
+    } 
+\end{frame}    
+
+\begin{frame}[fragile]{Training with a dummy}
+    \Tiny{
+        \begin{verbatim}
+        Epoch 1/10
+        75/75 [==============================] - 4s 32ms/step - loss: 3.6552 - reconstruction_loss: 0.1831 - kl_loss: 3.4721
+        Epoch 2/10
+        75/75 [==============================] - 3s 34ms/step - loss: 0.1436 - reconstruction_loss: 0.1432 - kl_loss: 4.0093e-04
+        Epoch 3/10
+        75/75 [==============================] - 3s 38ms/step - loss: 0.1430 - reconstruction_loss: 0.1422 - kl_loss: 7.2372e-04
+        Epoch 4/10
+        75/75 [==============================] - 3s 33ms/step - loss: 0.1417 - reconstruction_loss: 0.1410 - kl_loss: 7.1526e-04
+        Epoch 5/10
+        75/75 [==============================] - 3s 34ms/step - loss: 0.1405 - reconstruction_loss: 0.1398 - kl_loss: 7.1526e-04
+        Epoch 6/10
+        75/75 [==============================] - 3s 35ms/step - loss: 0.1403 - reconstruction_loss: 0.1396 - kl_loss: 7.1526e-04
+        Epoch 7/10
+        75/75 [==============================] - 3s 42ms/step - loss: 0.1397 - reconstruction_loss: 0.1389 - kl_loss: 7.1526e-04
+        Epoch 8/10
+        75/75 [==============================] - 3s 36ms/step - loss: 0.1395 - reconstruction_loss: 0.1388 - kl_loss: 7.1526e-04
+        Epoch 9/10
+        75/75 [==============================] - 3s 35ms/step - loss: 0.1395 - reconstruction_loss: 0.1388 - kl_loss: 7.1526e-04
+        Epoch 10/10
+        75/75 [==============================] - 3s 33ms/step - loss: 0.1391 - reconstruction_loss: 0.1384 - kl_loss: 7.1526e-04
+                \end{verbatim}
+            } 
+\end{frame}    
+
+
+\section{Training data}
+
+\begin{frame}{Training with GED}
+
+    \cite{Wang2018-wk}
+\end{frame}
+
+\section{Next steps}
+
+\begin{frame}{Next step}
+    \cite{Choi2021-gp} \cite{}
+\end{frame}
+
+\section{Bibliography}
+\begin{frame}[allowframebreaks]{Bibliography}
+
+    \bibliography{biblio}{}
+    \bibliographystyle{plain}
+
+\end{frame}
+\end{document}

@@ -1,0 +1,25 @@
+\frametitle{Training with a dummy}
+\Tiny{
+        \begin{verbatim}
+        Epoch 1/10
+        75/75 [==============================] - 4s 32ms/step - loss: 3.6552 - reconstruction_loss: 0.1831 - kl_loss: 3.4721
+        Epoch 2/10
+        75/75 [==============================] - 3s 34ms/step - loss: 0.1436 - reconstruction_loss: 0.1432 - kl_loss: 4.0093e-04
+        Epoch 3/10
+        75/75 [==============================] - 3s 38ms/step - loss: 0.1430 - reconstruction_loss: 0.1422 - kl_loss: 7.2372e-04
+        Epoch 4/10
+        75/75 [==============================] - 3s 33ms/step - loss: 0.1417 - reconstruction_loss: 0.1410 - kl_loss: 7.1526e-04
+        Epoch 5/10
+        75/75 [==============================] - 3s 34ms/step - loss: 0.1405 - reconstruction_loss: 0.1398 - kl_loss: 7.1526e-04
+        Epoch 6/10
+        75/75 [==============================] - 3s 35ms/step - loss: 0.1403 - reconstruction_loss: 0.1396 - kl_loss: 7.1526e-04
+        Epoch 7/10
+        75/75 [==============================] - 3s 42ms/step - loss: 0.1397 - reconstruction_loss: 0.1389 - kl_loss: 7.1526e-04
+        Epoch 8/10
+        75/75 [==============================] - 3s 36ms/step - loss: 0.1395 - reconstruction_loss: 0.1388 - kl_loss: 7.1526e-04
+        Epoch 9/10
+        75/75 [==============================] - 3s 35ms/step - loss: 0.1395 - reconstruction_loss: 0.1388 - kl_loss: 7.1526e-04
+        Epoch 10/10
+        75/75 [==============================] - 3s 33ms/step - loss: 0.1391 - reconstruction_loss: 0.1384 - kl_loss: 7.1526e-04
+                \end{verbatim}
+            }

@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99d (TeX Live 2022/dev/Debian)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: halftimePresentation.aux
+The style file: plain.bst
+Database file #1: biblio.bib
+Warning--I didn't find a database entry for ""
+You've used 5 entries,
+            2118 wiz_defined-function locations,
+            529 strings with 4875 characters,
+and the built_in function-call counts, 1688 in all, are:
+= -- 144
+> -- 129
+< -- 0
++ -- 51
+- -- 46
+* -- 129
+:= -- 312
+add.period$ -- 15
+call.type$ -- 5
+change.case$ -- 36
+chr.to.int$ -- 0
+cite$ -- 5
+duplicate$ -- 48
+empty$ -- 103
+format.name$ -- 46
+if$ -- 326
+int.to.chr$ -- 0
+int.to.str$ -- 5
+missing$ -- 5
+newline$ -- 28
+num.names$ -- 10
+pop$ -- 44
+preamble$ -- 1
+purify$ -- 33
+quote$ -- 0
+skip$ -- 33
+stack$ -- 0
+substring$ -- 43
+swap$ -- 4
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 16
+warning$ -- 0
+while$ -- 11
+width$ -- 6
+write$ -- 54
+(There was 1 warning)

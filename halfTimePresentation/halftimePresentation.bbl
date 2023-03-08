@@ -1,0 +1,32 @@
+\begin{thebibliography}{1}
+
+\bibitem{Choi2021-gp}
+Yongin Choi, Ruoxin Li, and Gerald Quon.
+\newblock Interpretable deep generative models for genomics.
+\newblock unpublished, September 2021.
+
+\bibitem{Chollet2017-yw}
+Francois Chollet.
+\newblock {\em Deep learning with python}.
+\newblock Manning Publications, New York, NY, October 2017.
+
+\bibitem{Goodfellow-et-al-2016}
+Ian Goodfellow, Yoshua Bengio, and Aaron Courville.
+\newblock {\em Deep Learning}.
+\newblock MIT Press, 2016.
+\newblock \url{http://www.deeplearningbook.org}.
+
+\bibitem{1312.6114}
+Diederik~P Kingma and Max Welling.
+\newblock Auto-encoding variational bayes, 2013.
+
+\bibitem{Wang2018-wk}
+Qingguo Wang, Joshua Armenia, Chao Zhang, Alexander~V Penson, Ed~Reznik, Liguo
+  Zhang, Thais Minet, Angelica Ochoa, Benjamin~E Gross, Christine~A
+  Iacobuzio-Donahue, Doron Betel, Barry~S Taylor, Jianjiong Gao, and Nikolaus
+  Schultz.
+\newblock Unifying cancer and normal {RNA} sequencing data from different
+  sources.
+\newblock {\em Sci. Data}, 5:180061, April 2018.
+
+\end{thebibliography}

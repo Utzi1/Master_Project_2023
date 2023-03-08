@@ -1,0 +1,10 @@
+	\begin{neuralnetwork}[height=6]
+		\newcommand{\nodetextclear}[2]{}
+		\newcommand{\nodetextx}[2]{$$}
+		\newcommand{\nodetexty}[2]{$$}
+		\inputlayer[count=6, bias=false, title=Input\\layer, text=\nodetextx]
+		\inputlayer[count=3, bias=false, title=Encoder\\layer, text=\nodetextx]\linklayers
+		\hiddenlayer[count=2, bias=false, title=Latent\\layer, text=\nodetextclear] \linklayers
+		\outputlayer[count=3, title=Decoder\\layer, text=\nodetexty] \linklayers
+		\outputlayer[count=6, title=Output\\layer, text=\nodetexty] \linklayers
+	\end{neuralnetwork}
